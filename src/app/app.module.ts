@@ -14,6 +14,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ImageModule} from 'primeng/image';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ButtonModule,
     CardModule,
     RippleModule,
+    ImageModule,
     FileUploadModule,
     InputSwitchModule,
     HttpClientModule,

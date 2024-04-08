@@ -1,61 +1,77 @@
 <div class="container">
 
-  <h5>Addons</h5>
-  <div class="grid p-fluid">
-    <div class="col-12 md:col-4">
-      <div class="p-inputgroup">
-        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-        <input type="text" pInputText placeholder="Username">
-      </div>
-    </div>
+    <h5>Addons</h5>
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-4">
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                <input type="text" pInputText placeholder="Username">
+            </div>
+        </div>
 
-    <div class="col-12 md:col-4">
-      <div class="p-inputgroup">
-        <span class="p-inputgroup-addon">$</span>
-        <input type="text" pInputText placeholder="Price">
-        <span class="p-inputgroup-addon">.00</span>
-      </div>
-    </div>
+        <div class="col-12 md:col-4">
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">$</span>
+                <input type="text" pInputText placeholder="Price">
+                <span class="p-inputgroup-addon">.00</span>
+            </div>
+        </div>
 
-    <div class="col-12 md:col-4">
-      <div class="p-inputgroup">
-        <span class="p-inputgroup-addon">www</span>
-        <input type="text" pInputText placeholder="Website">
-      </div>
-    </div>
+        <div class="col-12 md:col-4">
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">www</span>
+                <input type="text" pInputText placeholder="Website">
+            </div>
+        </div>
 
-    <!-- <div class="col-12 md:col-4">
+        <!-- <div class="col-12 md:col-4">
       <div class="p-inputgroup">
         <span class="p-inputgroup-addon">Archivo</span>
         <p-fileUpload name="myfile[]" url="./upload.php"></p-fileUpload>
       </div>
     </div> -->
 
-  </div>
+    </div>
 </div>
 
 <p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
 <p-card class="card">
-  <ng-template pTemplate="header">
-    <h5>DOCUMENTOS A SUBIR</h5>
-  </ng-template>
-  <form [formGroup]="form">
-    <div class="block font-bold text-center p-4 border-round mb-3">
-      <p>Desea rotar la imagen 90 grados?</p>
-      <p-inputSwitch formControlName="isRotate"></p-inputSwitch>
-    </div>
-    <div>
-      <p-fileUpload (onUpload)="onUpload($event)" accept=".pdf" (onSelect)="onSelect($event)" [multiple]="false"
-        [maxFileSize]="1000000000">
-        <ng-template pTemplate="content">
-          <ul *ngIf="uploadedFiles.length">
-            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-          </ul>
-        </ng-template>
-      </p-fileUpload>
-    </div>
+    <ng-template pTemplate="header">
+        <h5>DOCUMENTOS A SUBIR</h5>
+    </ng-template>
+    <form [formGroup]="form">
+        <div class="block font-bold text-center p-4 border-round mb-3">
+            <p>Desea rotar la imagen 90 grados?</p>
+            <p-inputSwitch formControlName="isRotate"></p-inputSwitch>
+        </div>
+        <div class="flex">
+            <div class="flex-1 h-4rem font-bold text-center p-4 border-round">
+                <p-fileUpload (onUpload)="onUpload($event)" accept=".pdf" (onSelect)="onSelect($event)" [multiple]="false" [maxFileSize]="1000000000">
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+            <div class="flex-1" *ngIf="!firmaImage">
+                <p-fileUpload (onUpload)="onUpload($event)" accept=".jpeg" (onSelect)="onSelectImage($event)" [multiple]="false" [maxFileSize]="1000000000">
+                </p-fileUpload>
+            </div>
+            <div class="flex-1" *ngIf="firmaImage">
+                <p-card header="FIRMA" subheader="Nombre de firma.jpg" [style]="{width: '360px'}" styleClass="p-card-shadow">
+                    <ng-template pTemplate="header">
+                        <img alt="Card" src="assets\images\firma2.jpg">
+                    </ng-template>
+                    <ng-template pTemplate="footer">
+                        <p-button label="Save" icon="pi pi-check"></p-button>
+                        <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button>
+                    </ng-template>
+                </p-card>
+            </div>
+        </div>
 
-  </form>
+    </form>
 </p-card>
 {{uploadedFiles}}
 
@@ -66,23 +82,23 @@
   <ngx-extended-pdf-viewer [src]="blob" [height]="'700px'"></ngx-extended-pdf-viewer>
 </div> -->
 <div>
-  <button pButton pRipple type="button" label="Firmar PDF" class="p-button-rounded" (click)="verArchivo()"></button>
+    <button pButton pRipple type="button" label="Firmar PDF" class="p-button-rounded" (click)="verArchivo()"></button>
 </div>
 <div class="container" *ngIf="isPDF">
-  <br>
+    <br>
 </div>
 
 <div class="formgrid grid">
-  <div class="field col" *ngIf="!isPDFFirmado">
-    <ngx-extended-pdf-viewer [src]="blob" [height]="'700px'"></ngx-extended-pdf-viewer>
-  </div>
-  <div class="field col" *ngIf="isPDFFirmado">
-    <ngx-extended-pdf-viewer [src]="blobFirmado" [height]="'700px'"></ngx-extended-pdf-viewer>
-  </div>
+    <div class="field col" *ngIf="!isPDFFirmado">
+        <ngx-extended-pdf-viewer [src]="blob" [height]="'700px'"></ngx-extended-pdf-viewer>
+    </div>
+    <div class="field col" *ngIf="isPDFFirmado">
+        <ngx-extended-pdf-viewer [src]="blobFirmado" [height]="'700px'"></ngx-extended-pdf-viewer>
+    </div>
 </div>
 
 <div>
-  <button pButton pRipple type="button" label="Generar Documento" class="p-button-rounded"></button>
+    <button pButton pRipple type="button" label="Generar Documento" class="p-button-rounded"></button>
 </div>
 
 

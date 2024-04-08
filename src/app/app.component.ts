@@ -22,7 +22,9 @@ export class AppComponent {
   pdfOriginalBase64: string;
   pdfFirmadoBase64: string;
   imagenBase64: string;
-  checked: boolean = false;;
+  checked: boolean = false;
+
+  firmaImage:Boolean=false;
   form:FormGroup;
 
 
@@ -39,21 +41,15 @@ export class AppComponent {
   }
 
 
-  onClick() {
-    const doc = new jsPDF()
-    const image = new Image();
-    image.src = "../assets/images/firmaGreissy.jpg";
-    doc.addImage(image, 'png', 0, 0, 25, 25);
-
-
-
-
-    doc.save("doc-prueba-angular")
-
-  }
+  // onClick() {
+  //   const doc = new jsPDF()
+  //   const image = new Image();
+  //   image.src = "../assets/images/firmaGreissy.jpg";
+  //   doc.save("doc-prueba-angular")
+  // }
 
   onUpload(event: any) {
-    // console.log('');
+    console.log('');
 
     for (let file of event.files) {
       this.convertToBase64(file);
@@ -63,12 +59,30 @@ export class AppComponent {
     this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
   }
 
+  onSelectImage(event : any){
+    console.log(event);
+    const file: File = event.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      let base64String: string = reader.result as string;
+      this.imagenBase64 = base64String.split(',')[1]
+      // Aquí puedes usar la cadena base64 como deseado
+      console.log('Base64 del archivo seleccionado:', base64String);
+    };
+
+    reader.readAsDataURL(file);
+    
+  }
+
   onSelect(event: any) {
     // console.log(event);
-    this.documentoService.getImageAsBase64('../assets/images/FIRMA123.JPG').subscribe(resp => {
+    // this.documentoService.getImageAsBase64('../assets/images/firma3.jpeg').subscribe(resp => {
       // console.log(resp);
       const reader = new FileReader();
-      reader.readAsDataURL(resp);
+      const file: File = event.files[0];
+      reader.readAsDataURL(file);
+      // reader.readAsDataURL(resp);
       reader.onload = () => {
         // Aquí puedes hacer lo que quieras con el archivo en base64
         const base64String = reader.result as string;
@@ -83,7 +97,8 @@ export class AppComponent {
         console.error('Error al convertir a base64:', error);
       };
 
-    })
+
+    // })
 
 
   }
