@@ -10,7 +10,8 @@ export class DocumentoService {
     ){}
 
     postFirmarDocumento(data:any){
-        return this.http.post(`http://localhost:3000/tasks`,data);
+        return this.http.post(`https://nestjs-pdf-production.up.railway.app/tasks`,data);
+        // return this.http.post(`http://localhost:3000/tasks`,data);
     }
 
     getImageAsBase64(imagePath: string){

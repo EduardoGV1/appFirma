@@ -4,6 +4,7 @@ import { jsPDF } from 'jspdf';
 import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 import { MessageService } from 'primeng/api';
 import { DocumentoService } from './app.service';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,7 @@ export class AppComponent {
 
   constructor(
     private messageService: MessageService,
-    private documentoService: DocumentoService
+    private documentoService: DocumentoService,
   ) {
     console.log('start');
     pdfDefaultOptions.assetsFolder = 'bleeding-edge';
@@ -109,6 +110,14 @@ export class AppComponent {
     this.documentoService.postFirmarDocumento(
       { pdf: this.pdfOriginalBase64, image: this.imagenBase64,rotate:this.form.get('isRotate')?.value }
     ).subscribe((respFirma: any) => {
+      if (respFirma) {
+        Swal.fire({
+          title: "FIRMA PDF",
+          text: "El documento PDf firmado exitosamente!",
+          icon: "success",
+          confirmButtonAriaLabel:'Aceptar'
+        });
+      }
       console.log(respFirma)
       this.pdfFirmadoBase64 = respFirma.modifiedPdfBase64
       const byteCharacters = atob(this.pdfFirmadoBase64);

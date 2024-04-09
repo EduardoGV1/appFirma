@@ -55,7 +55,7 @@
                 </p-fileUpload>
             </div>
             <div class="flex-1" *ngIf="!firmaImage">
-                <p-fileUpload (onUpload)="onUpload($event)" accept=".jpeg" (onSelect)="onSelectImage($event)" [multiple]="false" [maxFileSize]="1000000000">
+                <p-fileUpload (onUpload)="onUpload($event)" accept=".jpg" (onSelect)="onSelectImage($event)" [multiple]="false" [maxFileSize]="1000000000">
                 </p-fileUpload>
             </div>
             <div class="flex-1" *ngIf="firmaImage">
